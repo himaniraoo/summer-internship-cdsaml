@@ -9,25 +9,24 @@ from scipy.interpolate import interp1d
 WINDOW_SIZE = 18
 STEP_SIZE = 5
 KEYPOINT_DIM = 150  # 126 for hands + 24 for pose
-SAVE_PATH = 'npy_keypoints'
+DATA_FOLDER = "real data"  # <- just one flat folder
+SAVE_PATH = "npy_keypoints"        # save npy files into the same folder
 
 # === MediaPipe Setup ===
 mp_holistic = mp.solutions.holistic
-POSE_IDS = [11, 12, 13, 14, 15, 16, 23, 24]  # shoulders, elbows, wrists, chest
+POSE_IDS = [11, 12, 13, 14, 15, 16, 23, 24]
 
 # === Extract Keypoints ===
 def extract_keypoints(results):
     keypoints = []
 
-    # Hands
     for hand in [results.left_hand_landmarks, results.right_hand_landmarks]:
         if hand:
             for lm in hand.landmark:
                 keypoints.extend([lm.x, lm.y, lm.z])
         else:
-            keypoints.extend([np.nan] * 63)  # 21 keypoints × 3
+            keypoints.extend([np.nan] * 63)
 
-    # Pose (shoulders, elbows, wrists, chest)
     if results.pose_landmarks:
         for i in POSE_IDS:
             lm = results.pose_landmarks.landmark[i]
@@ -48,7 +47,7 @@ def interpolate_sequence(seq):
                 f = interp1d(np.where(not_nan)[0], col[not_nan], kind='linear', fill_value='extrapolate')
                 seq[:, i] = f(np.arange(seq.shape[0]))
             else:
-                seq[:, i] = 0  # fallback
+                seq[:, i] = 0
     return seq
 
 # === Sliding Window with Final Interpolation ===
@@ -56,17 +55,14 @@ def sliding_windows_with_interpolation(sequence, window_size, step):
     clips = []
     T = len(sequence)
 
-    # Regular full clips
     for start in range(0, T - window_size + 1, step):
         clips.append(sequence[start:start + window_size])
 
-    # Handle the final tail part
     remainder_start = ((T - window_size) // step + 1) * step
     if remainder_start < T:
         tail = sequence[remainder_start:]
         current_len = len(tail)
 
-        # Interpolate tail to match window size
         x_old = np.linspace(0, 1, current_len)
         x_new = np.linspace(0, 1, window_size)
         interpolated = []
@@ -92,7 +88,6 @@ def process_video(video_path):
             ret, frame = cap.read()
             if not ret:
                 break
-
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = holistic.process(image)
             keypoints = extract_keypoints(results)
@@ -102,30 +97,23 @@ def process_video(video_path):
     sequence = interpolate_sequence(sequence)
     return np.array(sequence)
 
-# === Process Dataset ===
-def process_dataset(root_folder):
+# === Process Flat Folder of Videos ===
+def process_flat_dataset(folder_path):
     os.makedirs(SAVE_PATH, exist_ok=True)
 
-    for class_name in os.listdir(root_folder):
-        class_path = os.path.join(root_folder, class_name)
-        if not os.path.isdir(class_path):
+    for filename in tqdm(os.listdir(folder_path), desc="Processing videos"):
+        if not filename.endswith('.mp4'):
             continue
 
-        save_class_path = os.path.join(SAVE_PATH, class_name)
-        os.makedirs(save_class_path, exist_ok=True)
+        video_path = os.path.join(folder_path, filename)
+        sequence = process_video(video_path)
+        clips = sliding_windows_with_interpolation(sequence, WINDOW_SIZE, STEP_SIZE)
 
-        for filename in tqdm(os.listdir(class_path), desc=f"Processing {class_name}"):
-            if not filename.endswith('.mp4'):
-                continue
-
-            video_path = os.path.join(class_path, filename)
-            sequence = process_video(video_path)
-            clips = sliding_windows_with_interpolation(sequence, WINDOW_SIZE, STEP_SIZE)
-
-            for idx, clip in enumerate(clips):
-                save_name = f"{filename[:-4]}_{idx}.npy"
-                np.save(os.path.join(save_class_path, save_name), clip)
+        for idx, clip in enumerate(clips):
+            save_name = f"{filename[:-4]}_{idx}.npy"  # same name + index
+            save_path = os.path.join(SAVE_PATH, save_name)
+            np.save(save_path, clip)
 
 # === Main Entry Point ===
 if __name__ == "__main__":
-    process_dataset("../augmentation/augmented_videos/new")  # Replace with your actual path
+    process_flat_dataset(DATA_FOLDER)

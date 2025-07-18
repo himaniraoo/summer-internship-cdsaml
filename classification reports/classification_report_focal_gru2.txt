@@ -1,0 +1,58 @@
+                                   precision    recall  f1-score   support
+
+                    Godess Laksmi       0.96      0.94      0.95       629
+                Godess Saraswathi       0.98      0.94      0.96       777
+                   applying kajal       0.97      0.94      0.95       592
+                        beautiful       0.90      0.87      0.88      1271
+                             bees       0.94      0.98      0.96      1523
+                            brave       0.86      0.85      0.85       556
+                          capable       0.84      0.86      0.85       516
+                   chairiot wheel       0.90      0.97      0.94       930
+            covering with a cloth       0.89      0.90      0.90       912
+                              day       0.83      0.89      0.86       715
+                         decision       0.89      0.88      0.89       713
+                 drinking poision       0.99      0.96      0.97       759
+                            drums       0.98      0.94      0.96       709
+             dyke impending water       0.98      0.89      0.93       946
+                         elephant       0.98      0.97      0.98      1003
+                         eyebrows       0.91      0.94      0.92      1282
+                             face       0.87      0.93      0.90       867
+                     fighting war       0.95      0.93      0.94       985
+ganga flowing through shivas head       0.98      0.98      0.98       980
+                       goosebumps       0.96      0.97      0.97       712
+                    grapsing hair       0.99      0.96      0.97       651
+      grasping a end of the saree       0.84      0.87      0.86       805
+              hitting the cymbals       0.90      0.92      0.91       557
+                 holding a flower       0.89      0.88      0.88       910
+                   holding things       0.89      0.92      0.91      1564
+                          jasmine       0.91      0.87      0.89       878
+                  lighting a lamp       0.92      0.85      0.88       755
+                             lion       0.82      0.89      0.86       676
+                            lotus       0.91      0.91      0.91       778
+                 measuring things       0.84      0.94      0.89       564
+                  milking the cow       0.94      0.96      0.95       885
+                 mixing medicines       0.97      0.95      0.96      1143
+                             moon       0.90      0.88      0.89       800
+                        murmuring       0.96      0.87      0.91       757
+                 offering incense       0.90      0.95      0.92      1322
+                            palms       0.94      0.93      0.93       993
+                           pearls       0.86      0.91      0.89      1130
+                    potters wheel       0.88      0.86      0.87       998
+                           rabbit       0.87      0.82      0.84       736
+                 remembering home       0.88      0.92      0.90       779
+                            spear       0.84      0.87      0.85       591
+                        steadfast       0.85      0.82      0.83       849
+                         thinking       0.93      0.91      0.92       785
+                         to teach       0.86      0.83      0.85       846
+          tying the sacred thread       0.95      0.93      0.94      1219
+                     use of arrow       0.97      0.97      0.97       893
+                violent behaviour       0.90      0.90      0.90       606
+                    violent winds       0.97      0.98      0.97      1353
+                           weapon       0.94      0.91      0.92       534
+                            wings       0.98      0.96      0.97       927
+                        wrestling       0.91      0.92      0.92       600
+                          writing       0.99      0.98      0.98      1007
+
+                         accuracy                           0.92     45268
+                        macro avg       0.92      0.91      0.92     45268
+                     weighted avg       0.92      0.92      0.92     45268
