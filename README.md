@@ -3,5 +3,7 @@ this is our summer internship project under the umbrella of cdsaml research lab 
 ------------------------------------------------------------------------------------------------------------------------------
 
 to run in your systems , make sure : 
- - the paths are corrected well according to your systems , since the augmented videos were not added due to storage restrictions , the .npy keypoints which matter are present
- - a virtual environment is created which has the right versions to run the .py codes.
+git clone https://github.com/himaniraoo/summer-internship-cdsaml
+cd summer-internship-cdsaml
+
+since we are still making the code better and better the requirements.txt is down but all the codes work absoutely fine if you import the modules right :))
