@@ -1,24 +1,61 @@
-this is our summer internship project under the umbrella of cdsaml research lab @ pesu univerisity 
+# Bharatanatyam Viniyoga Gesture Recognition
 
-------------------------------------------------------------------------------------------------------------------------------
+Real-time, sequence-based gesture recognition for classical Indian dance using deep sequential learning. Built during a research internship at the **CDSAML Lab, PES University**.
 
-🚀 Getting Started
+Published at an **international SCI-indexed conference, 2026**.
 
-Follow these steps to set up the environment and run the notebook locally.
+---
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/himaniraoo/summer-internship-cdsaml](https://github.com/himaniraoo/summer-internship-cdsaml)
-    cd summer-internship-cdsaml
-    ```
+## Results
 
-2.  **Install Dependencies:**
-    This project requires standard scientific Python libraries (scikit-learn, numpy, matplotlib, etc.). It is highly recommended to use a virtual environment.
+| Model | Accuracy |
+|-------|----------|
+| GRU (LOSO) | **81.96%** |
 
-    ```bash
-    # Create and activate environment
-    python3 -m venv venv
-    source venv/bin/activate 
+LOSO = Leave-One-Subject-Out cross-validation — strictest form of subject-independent evaluation.
 
-    # requirements.txt is not yet release since the project is being made better , codes work but install all the modules that come your way !!
-    ```
+---
+
+## What this does
+
+Bharatanatyam *Viniyoga* gestures are hand and body movements with specific semantic meaning in classical Indian dance. No large-scale ML dataset existed for this problem.
+
+This project:
+- Builds a **dataset of 11,000+ gesture videos** with structured labeling
+- Extracts **skeletal keypoints** (pose + hand landmarks) using MediaPipe
+- Trains **GRU and LSTM models** in PyTorch on keypoint sequences
+- Evaluates with **LOSO cross-validation** to ensure generalization across dancers
+- Compares multiple architectures: GRU, GRU with focal loss, LSTM, VAE, Siamese networks
+
+---
+
+## Tech Stack
+
+- **PyTorch** — model training and evaluation
+- **MediaPipe** — pose and hand landmark extraction
+- **OpenCV** — video processing
+- **NumPy / scikit-learn** — data processing and metrics
+
+---
+
+## Setup
+
+```bash
+git clone https://github.com/himaniraoo/summer-internship-cdsaml
+cd summer-internship-cdsaml
+pip install torch torchvision mediapipe opencv-python numpy scikit-learn matplotlib
+```
+
+## Run
+
+```bash
+# Extract keypoints
+python extract_keypoints.py
+
+# Train with LOSO
+python gru1_focal_loso.py
+
+# Real-time inference
+python video_test.py
+```
+
